@@ -4,7 +4,7 @@ import {createFilmDetailsControlsTemplate} from './film-details-controls-templat
 import {createFilmDetailsInfoTemplate} from './film-details-info-template.js';
 import {createFilmDetailsFormTemplate} from './film-details-form-template.js';
 
-const createFilmDetailsViewTemplate = () =>
+const createFilmDetailsViewTemplate = ({filmInfo}, comments) =>
   `
       <section class="film-details">
       <div class="film-details__inner">
@@ -13,7 +13,7 @@ const createFilmDetailsViewTemplate = () =>
             <button class="film-details__close-btn" type="button">close</button>
           </div>
 
-          ${createFilmDetailsInfoTemplate()}
+          ${createFilmDetailsInfoTemplate(filmInfo)}
 
           ${createFilmDetailsControlsTemplate()}
 
@@ -21,9 +21,10 @@ const createFilmDetailsViewTemplate = () =>
 
         <div class="film-details__bottom-container">
           <section class="film-details__comments-wrap">
-            <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">4</span></h3>
+            <h3 class="film-details__comments-title">
+            Comments <span class="film-details__comments-count">${comments.length}</span></h3>
 
-            ${createFilmDetailsCommentsTemplate()}
+            ${createFilmDetailsCommentsTemplate(comments)}
 
             ${createFilmDetailsFormTemplate()}
 
@@ -34,8 +35,13 @@ const createFilmDetailsViewTemplate = () =>
   `;
 
 export default class FilmDetailsView {
+  constructor(film, comments) {
+    this.film = film;
+    this.comments = comments;
+  }
+
   getTemplate() {
-    return createFilmDetailsViewTemplate();
+    return createFilmDetailsViewTemplate(this.film, this.comments);
   }
 
   getElement() {
